@@ -40,28 +40,37 @@ public class GUI {
         menuBar.add(portMenu);
         frame.setJMenuBar(menuBar);
 
-        JPanel panel = new JPanel();
-        panel.setBackground(new Color(10, 10, 10));
-        RoundButton roundButton1 = new RoundButton("test", Color.WHITE);
-        roundButton1.setLedEnabled(false);
+        JPanel buttonPanel = new JPanel(new BorderLayout());
 
-        RoundButton roundButton2 = new RoundButton("test", Color.WHITE);
-        roundButton2.setLedEnabled(false);
-        roundButton2.addMouseListener(new MouseAdapter() {
-            @Override
-            public void mouseReleased(MouseEvent e) {
-                if(roundButton1.isBlinking()){
-                    roundButton1.turnBlinkOff();
-                }else{
-                    roundButton1.turnBlinkOn(300);
-                }
-            }
-        });
+        JPanel leftButtonsPanel = new JPanel(new GridBagLayout());
+        GridBagConstraints gbc = new GridBagConstraints();
+        gbc.insets = new Insets(10, 10, 10, 10);
 
-        panel.add(roundButton1);
-        panel.add(roundButton2);
+        RoundButton powerButton = new RoundButton("Anlage ein/ aus", Color.WHITE, 43);
+        gbc.gridx = 0;
+        gbc.gridy = 0;
+        leftButtonsPanel.add(powerButton, gbc);
+        RoundButton dummyButton1 = new RoundButton("",  Color.WHITE , 0);
+        gbc.gridx = 1;
+        leftButtonsPanel.add(dummyButton1, gbc);
+        RoundButton richtungVorwaertsButton = new RoundButton("vorwärts", Color.WHITE, 45);
+        gbc.gridx = 0;
+        gbc.gridy = 1;
+        leftButtonsPanel.add(richtungVorwaertsButton, gbc);
+        RoundButton richtungRueckwaertsButton = new RoundButton("rückwärts", Color.WHITE, 47);
+        gbc.gridx = 1;
+        leftButtonsPanel.add(richtungRueckwaertsButton, gbc);
+        RoundButton beschickenButton = new RoundButton("Beschicken", Color.WHITE, 41);
+        gbc.gridx = 0;
+        gbc.gridy = 2;
+        leftButtonsPanel.add(beschickenButton, gbc);
+        RoundButton umlaufButton = new RoundButton("Umlauf", Color.WHITE, 51);
+        gbc.gridx = 1;
+        leftButtonsPanel.add(umlaufButton, gbc);
 
-        frame.add(panel);
+        buttonPanel.add(leftButtonsPanel,BorderLayout.WEST);
+
+        frame.add(buttonPanel);
 
         frame.setVisible(true);
     }

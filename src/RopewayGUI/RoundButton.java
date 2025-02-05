@@ -1,32 +1,37 @@
 package RopewayGUI;
 
+import RopewayControl.*;
 import javax.swing.*;
 import java.awt.*;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
 
 public class RoundButton extends JButton {
+    private final int buttonNumber;
     private boolean blinking = false;
     private Thread blinkThread;
     private boolean ledEnabled = false;
     private boolean buttonPressed = false;
     private Color buttonColor;
-    private Color defaultColor;
-    private Color pressedColor;
+    private final Color defaultColor;
+    private final Color pressedColor;
 
-    public RoundButton(String label, Color color) {
+    public RoundButton(String label, Color color, int number) {
         super(label);
+        buttonNumber = number;
         setContentAreaFilled(false);
         setFocusPainted(false);
         setBorderPainted(false);
         setPreferredSize(new Dimension(100, 100)); // Button-Größe setzen
         defaultColor = color;
         pressedColor = defaultColor.darker();
+        buttonColor = color;
 
         addMouseListener(new MouseAdapter() {
             @Override
             public void mousePressed(MouseEvent e) {
                 buttonPressed = true;
+                Main.sendData(buttonNumber + ":true");
                 if(ledEnabled){
                     setButtonColor(pressedColor);
                 }else{
@@ -37,6 +42,7 @@ public class RoundButton extends JButton {
             @Override
             public void mouseReleased(MouseEvent e) {
                 buttonPressed = false;
+                Main.sendData(buttonNumber + ":false");
                 if (ledEnabled) {
                     setButtonColor(defaultColor); // Setzt die Farbe zurück
                 }else{
@@ -44,6 +50,7 @@ public class RoundButton extends JButton {
                 }
             }
         });
+        setLedEnabled(false);
     }
 
     // Methode zum Ändern der Button-Farbe
@@ -54,6 +61,7 @@ public class RoundButton extends JButton {
 
     @Override
     protected void paintComponent(Graphics g) {
+        super.paintComponent(g);
         Graphics2D g2 = (Graphics2D) g;
         g2.setRenderingHint(RenderingHints.KEY_ANTIALIASING, RenderingHints.VALUE_ANTIALIAS_ON);
 
@@ -70,10 +78,9 @@ public class RoundButton extends JButton {
 
         g2.setPaint(gradient);
         if(buttonPressed){
-
             g2.fillOval(5, 5, getWidth() - 10, getHeight() - 10);
-        }else{
-            g2.fillOval(0, 0, getWidth(), getHeight());
+        } else {
+            g2.fillOval(2, 2, getWidth() - 4, getHeight() - 4);
         }
     }
 
