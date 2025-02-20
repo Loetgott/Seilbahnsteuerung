@@ -70,6 +70,14 @@ public class GUI {
 
         buttonPanel.add(leftButtonsPanel,BorderLayout.WEST);
 
+        JPanel haltPanel = new JPanel(new BorderLayout());
+
+        NothaltButton nothaltButton = new NothaltButton("nothalt",52);
+        nothaltButton.setPreferredSize(new Dimension(200,200));
+        haltPanel.add(nothaltButton, BorderLayout.WEST);
+
+        buttonPanel.add(haltPanel, BorderLayout.EAST);
+
         frame.add(buttonPanel);
 
         frame.setVisible(true);
